@@ -55,6 +55,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\bike_2.cs" />
      <Compile Include="Assets\Scripts\Camera_script.cs" />
+     <Compile Include="Assets\Scripts\IK_Handler.cs" />
      <Compile Include="Assets\Scripts\Move_animation.cs" />
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>D:/1 MARC/Universitat/AA_Videojocs/Github/Project-T/Trial/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
@@ -311,10 +312,6 @@
  <Reference Include="Boo.Lang">
  <HintPath>D:/1 MARC/Unity 2018.3.7/Editor/Data/MonoBleedingEdge/lib/mono/unity/Boo.Lang.dll</HintPath>
  </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{F6F03AD4-266D-6E47-3F90-2E17F52AB1C7}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
