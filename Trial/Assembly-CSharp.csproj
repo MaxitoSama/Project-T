@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\bike_2.cs" />
+     <Compile Include="Assets\Scripts\Camera_script.cs" />
      <Compile Include="Assets\Scripts\Move_animation.cs" />
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>D:/1 MARC/Universitat/AA_Videojocs/Github/Project-T/Trial/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
