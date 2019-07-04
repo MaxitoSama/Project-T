@@ -24,6 +24,9 @@ public class bike_2 : MonoBehaviour {
     public float maxMotorTorque;
     public float maxSteeringAngle;
 
+    public WheelCollider frontWheelCollider;
+    public WheelCollider backWheelCollider;
+
     Rigidbody bike;
 
     private float total_rot = 0.0f;
@@ -39,6 +42,13 @@ public class bike_2 : MonoBehaviour {
     void Update()
     {
        Rotation();
+
+        if(Input.GetButton("Fire1"))
+        {
+            bike.velocity=-bike.transform.forward*10;
+        }
+
+        
     }
 
     void Rotation()
