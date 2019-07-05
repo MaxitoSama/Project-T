@@ -2,15 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class BikeInfo
-{
-    public GameObject frontWheelMesh;
-    public GameObject rareWheelMesh;
-
-    public bool motor;
-    public bool steering;
-}
 
 public class bike_2 : MonoBehaviour {
 
@@ -19,13 +10,15 @@ public class bike_2 : MonoBehaviour {
     public float gravity = 20.0f;
     public float rotation = 1.0f;
     private Vector3 move = Vector3.zero;
-
-    public List<BikeInfo> bikeInfo;
+    
     public float maxMotorTorque;
     public float maxSteeringAngle;
 
     public WheelCollider frontWheelCollider;
     public WheelCollider backWheelCollider;
+    public Transform frontWheelTransform;
+    public Transform backWheelTransform;
+    public Transform handlebarTrnsform;
 
     Rigidbody bike;
 
@@ -42,10 +35,13 @@ public class bike_2 : MonoBehaviour {
     void Update()
     {
        Rotation();
+       ColliderDirection();
+       UpdateWheelPoses();
 
-        if(Input.GetButton("Fire1"))
+
+        if (Input.GetButton("Fire1"))
         {
-            bike.velocity=-bike.transform.forward*10;
+            backWheelCollider.motorTorque = -100;
         }
 
         
@@ -71,5 +67,23 @@ public class bike_2 : MonoBehaviour {
         {
             transform.Rotate(transform.up, Input.GetAxis("Horizontal") * rotation);
         }
+    }
+
+    void ColliderDirection()
+    {
+        frontWheelCollider.steerAngle = Input.GetAxis("Horizontal") * maxSteeringAngle;
+    }
+
+    private void UpdateWheelPoses()
+    {
+        Vector3 _fronPos = frontWheelTransform.position;
+        Vector3 _backPos = backWheelTransform.position;
+
+        Quaternion _fronRot = frontWheelTransform.rotation;
+        Quaternion _backRot = backWheelTransform.rotation;
+
+        frontWheelCollider.GetWorldPose(out _fronPos, out _fronRot);
+        backWheelCollider.GetWorldPose(out _backPos, out _backRot);
+
     }
 }
