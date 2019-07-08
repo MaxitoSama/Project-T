@@ -44,7 +44,9 @@ public class bike_2 : MonoBehaviour {
             backWheelCollider.motorTorque = -100;
         }
 
-        
+        //Freezing rotation by Z axis.
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0);
+
     }
 
     void Rotation()
