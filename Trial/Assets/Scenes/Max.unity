@@ -158,14 +158,14 @@ WheelCollider:
     targetPosition: 0
   m_SuspensionDistance: 0
   m_ForceAppPointDistance: 0
-  m_Mass: 20
+  m_Mass: 1
   m_WheelDampingRate: 0.0001
   m_ForwardFriction:
-    m_ExtremumSlip: 0.4
+    m_ExtremumSlip: 0.001
     m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.8
+    m_AsymptoteSlip: 0.001
     m_AsymptoteValue: 0.5
-    m_Stiffness: 1
+    m_Stiffness: 0
   m_SidewaysFriction:
     m_ExtremumSlip: 0.2
     m_ExtremumValue: 1
@@ -556,14 +556,14 @@ WheelCollider:
     targetPosition: 0
   m_SuspensionDistance: 0
   m_ForceAppPointDistance: 0
-  m_Mass: 20
+  m_Mass: 1
   m_WheelDampingRate: 0.0001
   m_ForwardFriction:
-    m_ExtremumSlip: 0.4
+    m_ExtremumSlip: 0.001
     m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.8
+    m_AsymptoteSlip: 0.001
     m_AsymptoteValue: 0.5
-    m_Stiffness: 1
+    m_Stiffness: 0
   m_SidewaysFriction:
     m_ExtremumSlip: 0.2
     m_ExtremumValue: 1
@@ -736,7 +736,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1346526587}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -22.68, y: 1.12, z: 3.3}
+  m_LocalPosition: {x: -22.68, y: 1.12, z: -13.91}
   m_LocalScale: {x: 10, y: 3, z: 10}
   m_Children: []
   m_Father: {fileID: 2019646686}
@@ -855,7 +855,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 64
   m_CollisionDetection: 3
 --- !u!114 &1623401979
 MonoBehaviour:
@@ -870,11 +870,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   default_speed: 10
-  jumpSpeed: 10
-  gravity: 20
   rotation: 2
-  maxMotorTorque: 0
-  maxSteeringAngle: 45
+  maxFrontBrakeTorke: 10000
+  maxBackBrakeTorke: 10000
+  maxMotorTorque: 100
+  maxSteeringAngle: 60
   frontWheelCollider: {fileID: 16391188}
   backWheelCollider: {fileID: 531747709}
   frontWheelTransform: {fileID: 1898627377}
@@ -1017,8 +1017,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1818232547}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.1, y: -6.2, z: 3.3}
-  m_LocalScale: {x: 100.729996, y: 12.3906, z: 108.100006}
+  m_LocalPosition: {x: 0.1, y: -15.6, z: 3.3}
+  m_LocalScale: {x: 253.99069, y: 31.242899, z: 272.5742}
   m_Children: []
   m_Father: {fileID: 2019646686}
   m_RootOrder: 1

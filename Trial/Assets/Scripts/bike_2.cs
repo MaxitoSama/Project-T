@@ -6,12 +6,14 @@ using UnityEngine;
 public class bike_2 : MonoBehaviour {
 
     public float default_speed = 10.0f;
-    public float jumpSpeed = 6.0f;
-    public float gravity = 20.0f;
     public float rotation = 1.0f;
+
+    public float maxFrontBrakeTorke = 200.0f;
+    public float maxBackBrakeTorke = 200.0f;
+
     private Vector3 move = Vector3.zero;
     
-    public float maxMotorTorque;
+    public float maxMotorTorque=100.0f;
     public float maxSteeringAngle;
 
     public WheelCollider frontWheelCollider;
@@ -19,6 +21,8 @@ public class bike_2 : MonoBehaviour {
     public Transform frontWheelTransform;
     public Transform backWheelTransform;
     public Transform handlebarTrnsform;
+
+    bool isBraking = false;
 
     Rigidbody bike;
 
@@ -34,19 +38,51 @@ public class bike_2 : MonoBehaviour {
 
     void Update()
     {
-       Rotation();
-       ColliderDirection();
-       UpdateWheelPoses();
+        Rotation();
+        ColliderDirection();
+        UpdateWheelPoses();
 
-
-        if (Input.GetButton("Fire1"))
+        if (Input.GetButton("Fire1") && bike.velocity.magnitude<=default_speed && !isBraking)
         {
-            backWheelCollider.motorTorque = -100;
+            backWheelCollider.motorTorque = -maxMotorTorque;
         }
+        else
+        {
+            backWheelCollider.motorTorque = 0;
+        }
+
+        if (Input.GetAxis("FrontBrake")!=0)
+        {
+            isBraking = true;
+            frontWheelCollider.brakeTorque = maxFrontBrakeTorke;
+
+            backWheelCollider.motorTorque = 0;
+        }
+        else
+        {
+            isBraking = false;
+            frontWheelCollider.brakeTorque = 0;
+            backWheelCollider.brakeTorque = 0;
+
+        }
+
+        if (Input.GetAxis("BackBrake") != 0)
+        {
+            isBraking = true;
+            backWheelCollider.brakeTorque = maxBackBrakeTorke;
+            backWheelCollider.motorTorque = 0;
+        }
+        else
+        {
+            isBraking = false;
+            backWheelCollider.brakeTorque = 0;
+        }
+
 
         //Freezing rotation by Z axis.
         transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0);
 
+        Debug.Log(bike.velocity.magnitude);
     }
 
     void Rotation()
@@ -65,10 +101,6 @@ public class bike_2 : MonoBehaviour {
             }
         }
 
-        if (Input.GetAxis("Balance") <= 0 && total_rot <= 0)
-        {
-            transform.Rotate(transform.up, Input.GetAxis("Horizontal") * rotation);
-        }
     }
 
     void ColliderDirection()
