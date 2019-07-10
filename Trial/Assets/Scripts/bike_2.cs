@@ -7,20 +7,26 @@ public class bike_2 : MonoBehaviour {
 
     public float default_speed = 10.0f;
     public float rotation = 1.0f;
+    public float acceleration = 1.0f;
+    public float deacceleration = 1.0f;
+
+    float current_speed;
 
     public float maxFrontBrakeTorke = 200.0f;
     public float maxBackBrakeTorke = 200.0f;
 
     private Vector3 move = Vector3.zero;
     
-    public float maxMotorTorque=100.0f;
+    public float maxSpeed=100.0f;
     public float maxSteeringAngle;
 
-    public WheelCollider frontWheelCollider;
-    public WheelCollider backWheelCollider;
     public Transform frontWheelTransform;
     public Transform backWheelTransform;
     public Transform handlebarTrnsform;
+
+    public WheelCollider fronfWheelCollider;
+    public WheelCollider backWheelCollider;
+
 
     bool isBraking = false;
 
@@ -39,43 +45,44 @@ public class bike_2 : MonoBehaviour {
     void Update()
     {
         Rotation();
-        ColliderDirection();
-        UpdateWheelPoses();
 
-        if (Input.GetButton("Fire1") && bike.velocity.magnitude<=default_speed && !isBraking)
+        if(fronfWheelCollider.isGrounded || backWheelCollider.isGrounded)
         {
-            backWheelCollider.motorTorque = -maxMotorTorque;
+            if (Input.GetButton("Fire1") && current_speed< maxSpeed && !isBraking)
+            {
+                Accelerate();
+            }
+            else
+            {
+                Deaccelerate();
+            }
+
+            bike.velocity = -transform.forward * current_speed;
         }
-        else
+
+        if (Input.GetAxis("Horizontal")!=0)
         {
-            backWheelCollider.motorTorque = 0;
+            transform.Rotate(Vector3.up, Input.GetAxis("Horizontal"));
         }
+       
 
         if (Input.GetAxis("FrontBrake")!=0)
         {
             isBraking = true;
-            frontWheelCollider.brakeTorque = maxFrontBrakeTorke;
-
-            backWheelCollider.motorTorque = 0;
         }
         else
         {
             isBraking = false;
-            frontWheelCollider.brakeTorque = 0;
-            backWheelCollider.brakeTorque = 0;
 
         }
 
         if (Input.GetAxis("BackBrake") != 0)
         {
             isBraking = true;
-            backWheelCollider.brakeTorque = maxBackBrakeTorke;
-            backWheelCollider.motorTorque = 0;
         }
         else
         {
             isBraking = false;
-            backWheelCollider.brakeTorque = 0;
         }
 
 
@@ -87,37 +94,32 @@ public class bike_2 : MonoBehaviour {
 
     void Rotation()
     {
-        if (Input.GetAxis("Balance") > 0 && total_rot < 45)
+        if (Input.GetAxis("Vertical") < 0)
         {
-            total_rot += rotation;
-            transform.Rotate(rotation, 0, 0);
+            bike.AddForce(transform.forward*100);
         }
+    }
+
+    void Accelerate()
+    {
+        current_speed += acceleration;
+    }
+    void Deaccelerate()
+    {
+        if(!isBraking)
+        {
+            if (current_speed >= default_speed)
+            {
+                current_speed -= deacceleration;
+            }
+        }        
         else
         {
-            if (total_rot > 0)
+            if (current_speed > 0)
             {
-                transform.Rotate(-rotation, 0, 0);
-                total_rot -= rotation;
+                current_speed -= deacceleration;
             }
         }
-
     }
-
-    void ColliderDirection()
-    {
-        frontWheelCollider.steerAngle = Input.GetAxis("Horizontal") * maxSteeringAngle;
-    }
-
-    private void UpdateWheelPoses()
-    {
-        Vector3 _fronPos = frontWheelTransform.position;
-        Vector3 _backPos = backWheelTransform.position;
-
-        Quaternion _fronRot = frontWheelTransform.rotation;
-        Quaternion _backRot = backWheelTransform.rotation;
-
-        frontWheelCollider.GetWorldPose(out _fronPos, out _fronRot);
-        backWheelCollider.GetWorldPose(out _backPos, out _backRot);
-
-    }
+   
 }
