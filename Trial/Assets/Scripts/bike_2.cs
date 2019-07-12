@@ -5,28 +5,36 @@ using UnityEngine;
 
 public class bike_2 : MonoBehaviour {
 
+    [Header("Velocities")]
+
     public float default_speed = 10.0f;
-    public float rotation = 1.0f;
     public float acceleration = 1.0f;
     public float deacceleration = 1.0f;
+    public float maxSpeed = 100.0f;
 
     float current_speed;
 
-    public float maxFrontBrakeTorke = 200.0f;
-    public float maxBackBrakeTorke = 200.0f;
+    [Header("Rotation Manager")]
+    public float rotation = 1.0f;
+    public float wheeleSpeed = 50.0f;
+
 
     private Vector3 move = Vector3.zero;
-    
-    public float maxSpeed=100.0f;
-    public float maxSteeringAngle;
+    private Vector3 wheeleOffset = Vector3.zero;
+    private Transform resetPos;
 
-    public Transform frontWheelTransform;
-    public Transform backWheelTransform;
-    public Transform handlebarTrnsform;
+    [Header("Objects Manager")]
+    public GameObject frontWheel;
+    public GameObject backWheel;
+    MeshCollider frontWheelCollider;
+    MeshCollider backWheelCollider;
 
-    public WheelCollider fronfWheelCollider;
-    public WheelCollider backWheelCollider;
+    public Transform rotationBackPoint;
+    public Transform rotationFrontPoint;
 
+    [Header("Bools")]
+    public bool rareWheelGrounded = false;
+    public bool frontWheelGrounded = false;
 
     bool isBraking = false;
 
@@ -38,17 +46,26 @@ public class bike_2 : MonoBehaviour {
     void Start()
     {
         Debug.Log("Bike movement script added to:" + gameObject.name);
+        wheeleOffset = transform.position - rotationBackPoint.position;
 
         bike = GetComponent<Rigidbody>();
+        resetPos = transform;
+
+        frontWheelCollider = frontWheel.GetComponent<MeshCollider>();
+        backWheelCollider = backWheel.GetComponent<MeshCollider>();
+
     }
 
     void Update()
     {
         Rotation();
 
-        if(fronfWheelCollider.isGrounded || backWheelCollider.isGrounded)
+        rareWheelGrounded = backWheelisGrounded();
+        frontWheelGrounded = frontWheelisGrounded();
+
+        if (rareWheelGrounded)
         {
-            if (Input.GetButton("Fire1") && current_speed< maxSpeed && !isBraking)
+            if (Input.GetButton("Fire1") && current_speed < maxSpeed && !isBraking)
             {
                 Accelerate();
             }
@@ -57,8 +74,10 @@ public class bike_2 : MonoBehaviour {
                 Deaccelerate();
             }
 
-            bike.velocity = -transform.forward * current_speed;
+            Vector3 velocity_direction = Vector3.Cross(transform.right, Vector3.up);
+            bike.velocity = -velocity_direction.normalized * current_speed;
         }
+        
 
         if (Input.GetAxis("Horizontal")!=0)
         {
@@ -85,19 +104,46 @@ public class bike_2 : MonoBehaviour {
             isBraking = false;
         }
 
+        if(Input.GetButton("Fire2"))
+        {
+            transform.SetPositionAndRotation(resetPos.position, resetPos.rotation);
+        }
+
 
         //Freezing rotation by Z axis.
         transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0);
-
-        Debug.Log(bike.velocity.magnitude);
     }
 
     void Rotation()
     {
-        if (Input.GetAxis("Vertical") < 0)
+        Vector3 new_Axis = Vector3.Cross(transform.forward, Vector3.up)+new Vector3(0.0f,0.0f,1.0f);
+
+        if (Input.GetAxis("Vertical") <= -0.5)
         {
-            bike.AddForce(transform.forward*100);
+            if (backWheelisGrounded())
+            {
+                transform.RotateAround(rotationBackPoint.position, transform.right, Time.deltaTime * wheeleSpeed);
+                Debug.Log("Wheeleeeeee");
+            }
+            else
+            {
+                transform.RotateAround(transform.position, transform.right, Time.deltaTime * wheeleSpeed);
+            }
         }
+
+        if (Input.GetAxis("Vertical") >= 0.5)
+        {
+            if (frontWheelisGrounded())
+            {
+                transform.RotateAround(rotationFrontPoint.position, -transform.right, Time.deltaTime * wheeleSpeed);
+            }
+            else
+            {
+                transform.RotateAround(transform.position, -transform.right, Time.deltaTime * wheeleSpeed);
+
+            }
+        }
+        
     }
 
     void Accelerate()
@@ -121,5 +167,24 @@ public class bike_2 : MonoBehaviour {
             }
         }
     }
-   
+
+    bool frontWheelisGrounded()
+    {
+        bool ret=false;
+
+        ret = frontWheel.GetComponent<CollisionTest>().isGrounded;
+
+        return ret;
+    }
+
+    bool backWheelisGrounded()
+    {
+        bool ret = false;
+
+        ret = backWheel.GetComponent<CollisionTest>().isGrounded;
+
+        return ret;
+    }
+
+
 }

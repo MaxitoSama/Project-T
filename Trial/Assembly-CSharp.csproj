@@ -55,6 +55,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\bike_2.cs" />
      <Compile Include="Assets\Scripts\Camera_script.cs" />
+     <Compile Include="Assets\Scripts\CollisionTest.cs" />
      <Compile Include="Assets\Scripts\IK_Handler.cs" />
      <Compile Include="Assets\Scripts\Move_animation.cs" />
  <Reference Include="Unity.TextMeshPro.Editor">
