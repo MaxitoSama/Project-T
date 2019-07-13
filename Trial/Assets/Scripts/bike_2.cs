@@ -80,6 +80,9 @@ public class bike_2 : MonoBehaviour {
             Deaccelerate();
         }
 
+        Vector3 velocity_direction = Vector3.Cross(transform.right, Vector3.up);
+        bike.velocity = new Vector3(-velocity_direction.x * current_speed, bike.velocity.y, -velocity_direction.z * current_speed);
+
         Rotation();
 
         if (Input.GetAxis("Horizontal")!=0 && frontWheelGrounded)
@@ -163,17 +166,7 @@ public class bike_2 : MonoBehaviour {
 
     void Accelerate()
     {
-        Vector3 velocity_direction = Vector3.Cross(transform.right, Vector3.up);
-
-        if (frontWheelGrounded)
-        {
-            current_speed += acceleration;
-            bike.velocity = new Vector3(-velocity_direction.x * current_speed, bike.velocity.y, -velocity_direction.z * current_speed);
-        }
-        else
-        {
-            bike.AddForce(-velocity_direction.normalized*10, ForceMode.Impulse);
-        }
+          current_speed += acceleration;
     }
 
     void Deaccelerate()
@@ -194,8 +187,6 @@ public class bike_2 : MonoBehaviour {
             current_speed = 0;
         }
 
-        Vector3 velocity_direction = Vector3.Cross(transform.right, Vector3.up);
-        bike.velocity = new Vector3(-velocity_direction.x * current_speed, bike.velocity.y, -velocity_direction.z * current_speed);
     }
 
     bool frontWheelisGrounded()
