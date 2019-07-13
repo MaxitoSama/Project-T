@@ -603,6 +603,36 @@ Transform:
   m_Father: {fileID: 1623401977}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1177129343
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1177129344}
+  m_Layer: 0
+  m_Name: CM
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1177129344
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177129343}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.66906214, y: -1.06, z: 0.77}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1623401977}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1346526587
 GameObject:
   m_ObjectHideFlags: 0
@@ -728,6 +758,7 @@ Transform:
   - {fileID: 938471356}
   - {fileID: 497274622}
   - {fileID: 1905043204}
+  - {fileID: 1177129344}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -761,7 +792,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   default_speed: 10
   acceleration: 0.25
-  deacceleration: 1
+  deacceleration: 0.25
   maxSpeed: 100
   rotation: 0.5
   wheeleSpeed: 50
@@ -769,6 +800,7 @@ MonoBehaviour:
   backWheel: {fileID: 342260172}
   rotationBackPoint: {fileID: 497274622}
   rotationFrontPoint: {fileID: 1905043204}
+  centerOfMass: {fileID: 1177129344}
   rareWheelGrounded: 0
   frontWheelGrounded: 0
 --- !u!1 &1661639164
