@@ -791,9 +791,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   default_speed: 10
-  acceleration: 0.25
+  acceleration: 0.1
   deacceleration: 0.25
-  maxSpeed: 100
+  maxSpeed: 50
+  jumpImpulse: 25
   rotation: 0.5
   wheeleSpeed: 50
   frontWheel: {fileID: 1661639164}

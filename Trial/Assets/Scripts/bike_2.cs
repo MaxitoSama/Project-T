@@ -11,6 +11,7 @@ public class bike_2 : MonoBehaviour {
     public float acceleration = 1.0f;
     public float deacceleration = 1.0f;
     public float maxSpeed = 100.0f;
+    public float jumpImpulse = 10.0f;
 
     float current_speed;
 
@@ -41,6 +42,9 @@ public class bike_2 : MonoBehaviour {
     public bool frontWheelGrounded = false;
 
     bool isBraking = false;
+    bool frontBrake = false;
+    bool backBrake = false;
+
 
     Rigidbody bike;
 
@@ -81,9 +85,15 @@ public class bike_2 : MonoBehaviour {
         }
 
         Vector3 velocity_direction = Vector3.Cross(transform.right, Vector3.up);
-        bike.velocity = new Vector3(-velocity_direction.x * current_speed, bike.velocity.y, -velocity_direction.z * current_speed);
+
+        if (!rareWheelGrounded && !frontWheelGrounded)
+            bike.velocity = new Vector3(-velocity_direction.x * current_speed, bike.velocity.y, -velocity_direction.z * current_speed);
+        else
+            bike.velocity = new Vector3(-velocity_direction.x * current_speed, 0.0f, -velocity_direction.z * current_speed);
+
 
         Rotation();
+        Jumping();
 
         if (Input.GetAxis("Horizontal")!=0 && frontWheelGrounded)
         {
@@ -94,31 +104,35 @@ public class bike_2 : MonoBehaviour {
         if (Input.GetAxis("FrontBrake")!=0)
         {
             isBraking = true;
+            frontBrake = true;
         }
         else
         {
             isBraking = false;
-
+            frontBrake = false;
         }
 
         if (Input.GetAxis("BackBrake") != 0)
         {
             isBraking = true;
+            backBrake = true;
         }
         else
         {
             isBraking = false;
+            backBrake = false;
         }
 
-        if(Input.GetButton("Fire3"))
+        if (Input.GetButton("Fire3"))
         {
             transform.position = resetPos;
             transform.rotation = resetRot;
         }
 
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0);
 
         //Freezing rotation by Z axis.
-        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0);
+
     }
 
     void Rotation()
@@ -171,22 +185,24 @@ public class bike_2 : MonoBehaviour {
 
     void Deaccelerate()
     {
-        if (current_speed > 0)
+        if (rareWheelGrounded || frontWheelGrounded)
         {
-            if (!isBraking)
+            if (current_speed > 0)
             {
-                current_speed -= deacceleration;
-            }        
+                if (!isBraking)
+                {
+                    current_speed -= deacceleration;
+                }
+                else
+                {
+                    current_speed -= deacceleration * 2;
+                }
+            }
             else
             {
-                current_speed -= deacceleration*2;
+                current_speed = 0;
             }
         }
-        else
-        {
-            current_speed = 0;
-        }
-
     }
 
     bool frontWheelisGrounded()
@@ -205,6 +221,32 @@ public class bike_2 : MonoBehaviour {
         ret = backWheel.GetComponent<CollisionTest>().isGrounded;
 
         return ret;
+    }
+
+    void Jumping()
+    {
+        if(rareWheelGrounded && frontWheelGrounded)
+        {
+            if (Input.GetButton("Fire2"))
+            {
+                bike.AddForce(Vector3.up * jumpImpulse, ForceMode.Impulse);
+            }
+        }
+
+        if(rareWheelGrounded && !frontWheelGrounded)
+        {
+            if (Input.GetButton("Fire2"))
+            {
+                if(Input.GetAxis("Vertical")>=0.3)
+                {
+                    bike.AddForce(transform.forward * jumpImpulse* Input.GetAxis("Vertical"), ForceMode.Impulse);
+                }
+                else
+                {
+                    bike.AddForce(Vector3.up * jumpImpulse, ForceMode.Impulse);
+                }
+            }
+        }
     }
 
 
