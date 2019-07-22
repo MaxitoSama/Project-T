@@ -375,7 +375,7 @@ MeshCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 342260172}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 3
   m_Convex: 1
@@ -402,12 +402,12 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 342260172}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 1.4316651
-  m_Height: 2.8633308
+  m_Radius: 1.3884636
+  m_Height: 2.776928
   m_Direction: 1
-  m_Center: {x: 2.56, y: 4.694199, z: 3.5400002}
+  m_Center: {x: 2.5649886, y: 4.7055683, z: 3.5400002}
 --- !u!1 &456726658
 GameObject:
   m_ObjectHideFlags: 0
@@ -1044,7 +1044,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1623401976}
   serializedVersion: 2
-  m_Mass: 7
+  m_Mass: 100
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -1065,11 +1065,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   default_speed: 10
-  acceleration: 0.1
+  acceleration: 0.25
   deacceleration: 0.25
   maxSpeed: 50
-  jumpImpulse: 25
-  jumpForwardImpulse: 5
+  jumpImpulse: 1000
+  jumpForwardImpulse: 3
+  gravityEffectUp: -0.25
+  gravityEffectDown: 1.05
   rotation: 0.5
   wheeleSpeed: 50
   frontWheel: {fileID: 1661639164}
@@ -1171,7 +1173,7 @@ MeshCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1661639164}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 3
   m_Convex: 1
@@ -1198,12 +1200,12 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1661639164}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 1.4316651
-  m_Height: 2.8633308
+  m_Radius: 1.3884636
+  m_Height: 2.776928
   m_Direction: 1
-  m_Center: {x: -1.96, y: 4.694199, z: 3.5400002}
+  m_Center: {x: -1.96, y: 4.7055683, z: 3.5400002}
 --- !u!4 &1672604533
 Transform:
   m_ObjectHideFlags: 0
