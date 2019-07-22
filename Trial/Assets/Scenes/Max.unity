@@ -970,7 +970,7 @@ MeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: b40fde0fc8f210d448258835c85d5e36, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1069,6 +1069,7 @@ MonoBehaviour:
   deacceleration: 0.25
   maxSpeed: 50
   jumpImpulse: 25
+  jumpForwardImpulse: 5
   rotation: 0.5
   wheeleSpeed: 50
   frontWheel: {fileID: 1661639164}
@@ -1282,7 +1283,7 @@ MeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 38062c1c9fbb8b44c87fbc1180ff5880, type: 2}
+  - {fileID: 2100000, guid: b40fde0fc8f210d448258835c85d5e36, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

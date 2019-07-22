@@ -5,6 +5,13 @@ using UnityEngine;
 
 public class bike_2 : MonoBehaviour {
 
+    public enum bikeState
+    {
+        FRONT_WHEELE,
+        BACK_WHEELE,
+        NONE
+    }
+
     [Header("Velocities")]
 
     public float default_speed = 10.0f;
@@ -12,6 +19,8 @@ public class bike_2 : MonoBehaviour {
     public float deacceleration = 1.0f;
     public float maxSpeed = 100.0f;
     public float jumpImpulse = 10.0f;
+    public float jumpForwardImpulse = 10.0f;
+
 
     float current_speed;
 
@@ -52,7 +61,9 @@ public class bike_2 : MonoBehaviour {
 
     private Quaternion myrotation;
 
- 
+    bikeState currentSate = bikeState.NONE;
+
+
     // Use this for initialization
     void Start()
     {
@@ -127,8 +138,11 @@ public class bike_2 : MonoBehaviour {
             Accelerate();
         }
         else
-        {
-            Deaccelerate();
+        { 
+            if(rareWheelGrounded)
+            {
+                Deaccelerate();
+            }
         }
 
         Vector3 velocity_direction = Vector3.Cross(transform.right, Vector3.up);
@@ -210,6 +224,11 @@ public class bike_2 : MonoBehaviour {
                 current_speed = 0;
             }
         }
+
+        if(bike.velocity.magnitude==0.0f)
+        {
+            current_speed = 0;
+        }
     }
 
     //Checks if the front wheel is touching something
@@ -235,6 +254,7 @@ public class bike_2 : MonoBehaviour {
     //Jump manager
     void Jumping()
     {
+        Debug.Log(transform.forward);
         //Normal jump
         if(rareWheelGrounded && frontWheelGrounded)
         {
@@ -251,7 +271,7 @@ public class bike_2 : MonoBehaviour {
             {
                 if(Input.GetAxis("Vertical")>=0.3)
                 {
-                    bike.AddForce(transform.forward * jumpImpulse* Input.GetAxis("Vertical"), ForceMode.Impulse);
+                    bike.AddForce(-bike.transform.forward * jumpImpulse* Input.GetAxis("Vertical")*jumpForwardImpulse, ForceMode.Impulse);
                 }
                 else
                 {
